@@ -1,11 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import React from 'react'
+// import {jsx as _jsx} from "react/jsx-runtime.js"
 import App from './App.jsx'
 
-function myApp(){
+function MyApp(){
   return(
     <div>
-      <h1>Hello World in Main :)</h1>
+      <h1>Hello World in Main</h1>
     </div>
   )
 }
@@ -29,15 +31,16 @@ const reactElement = React.createElement(
   'a', //type of element
   {href: 'https://google.com', target: '_blank'}, // attributes of element ... if none, keep it emepty but it is a must
   'Click me to Visit Google', //children - text to be injected in anything
-  anotherElement // evaluated Expression
 )
+
+// createRoot(document.getElementById('root')).render(
+//   <StrictMode>
+//     <App />
+//     <myApp /> => this is wrong because it starts with lowercase ... React says lowercase -> HTML, uppercase -> React Component 
+//     <MyApp />
+// </StrictMode>,
+// )
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
-
-ReactDOM.createRoot(document.getElementById('root')).render(
   reactElement
 )
