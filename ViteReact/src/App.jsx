@@ -1,4 +1,5 @@
 
+import Greetings from './Greetings.jsx'
 
 function App() {
   return (

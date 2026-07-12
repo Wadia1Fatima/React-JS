@@ -1,0 +1,2 @@
+=> While using vite react you must capitalize the first letter of all function names and and all component files must be created with .jsx extension.
+=> It is a good practice to name all files with their forst letter capital.
