@@ -2,8 +2,13 @@
 import Greetings from './Greetings.jsx'
 
 function App() {
+  const username = "Wadia"
   return (
-    <h1>Hello World!!</h1>
+    //functions can return only one element so we group all the elements to be returned in <></> or in a <div></div>
+    <>
+      <Greeting/>
+      <h1>Welcome, {username} :)</h1> // this is known as an evaluated expression
+    </>
   )
 }
 
