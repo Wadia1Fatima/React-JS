@@ -469,3 +469,200 @@ Browser updates
 - Curly braces `{}` are used for JavaScript expressions.
 
 </details>
+
+<details>
+<summary>📚 Lecture 6: Virtual DOM, Fiber & Reconciliation (Click to Expand)</summary>
+
+# Virtual DOM, Fiber & Reconciliation
+
+## What is DOM?
+
+**DOM (Document Object Model)** is a tree-like representation of an HTML document.
+
+It allows JavaScript to access and manipulate the webpage.
+
+Example:
+
+```html
+<html>
+  <body>
+    <h1>Hello</h1>
+    <button>Click Me</button>
+  </body>
+</html>
+```
+
+DOM Tree:
+
+```text
+html
+│
+└── body
+     │
+     ├── h1
+     │     └── "Hello"
+     │
+     └── button
+           └── "Click Me"
+```
+
+---
+
+## What is the Virtual DOM?
+
+The **Virtual DOM** is a lightweight JavaScript copy of the Real DOM.
+
+Instead of immediately updating the browser whenever something changes, React first updates the Virtual DOM.
+
+It then compares the old Virtual DOM with the new one and updates only the necessary parts of the Real DOM.
+
+---
+
+## Why do we need the Virtual DOM?
+
+Updating the **Real DOM** is expensive because the browser must:
+
+- Recalculate styles
+- Recalculate layout
+- Repaint the page
+- Sometimes perform a reflow
+
+React minimizes these expensive operations by first working with the Virtual DOM.
+
+---
+
+## How the Virtual DOM Works
+
+When the application state changes:
+
+1. React creates a **new Virtual DOM**.
+2. It compares it with the **previous Virtual DOM**.
+3. It finds what has changed.
+4. It updates only those parts in the Real DOM.
+
+This makes React applications faster and more efficient.
+
+---
+
+## Reconciliation
+
+**Reconciliation** is the process React uses to compare:
+
+- Old Virtual DOM
+- New Virtual DOM
+
+It identifies the differences between them and updates only the changed elements in the Real DOM.
+
+Example:
+
+Old Virtual DOM
+
+```text
+App
+│
+├── Navbar
+├── Counter = 0
+└── Footer
+```
+
+New Virtual DOM
+
+```text
+App
+│
+├── Navbar
+├── Counter = 1
+└── Footer
+```
+
+React detects that only the **Counter** changed, so only that part of the Real DOM is updated.
+
+---
+
+## React Rendering Flow
+
+```
+User clicks a button
+        ↓
+State changes (setState / useState)
+        ↓
+Component re-renders
+        ↓
+New JSX is returned
+        ↓
+React creates a New Virtual DOM
+        ↓
+Reconciliation compares it with the Old Virtual DOM
+        ↓
+Differences are found
+        ↓
+Only the changed parts of the Real DOM are updated
+        ↓
+Browser displays the updated UI
+```
+
+---
+
+## What is Fiber?
+
+**Fiber** is React's rendering engine.
+
+Its job is to make rendering faster, smoother, and more efficient.
+
+Fiber allows React to:
+
+- Break rendering work into smaller tasks.
+- Pause and resume rendering when necessary.
+- Prioritize important updates.
+- Keep the application responsive.
+
+Simply remember:
+
+> **Virtual DOM tells React *what* changed, while Fiber decides *how and when* those changes should be processed.**
+
+---
+
+## Real DOM vs Virtual DOM
+
+| Real DOM | Virtual DOM |
+|----------|-------------|
+| Actual webpage shown in the browser | JavaScript copy of the Real DOM |
+| Slow to update | Fast to update |
+| Browser performs expensive operations | React compares changes before updating |
+| Updates directly | Updates the Real DOM only when necessary |
+
+---
+
+## Common Misconceptions
+
+❌ React updates the entire webpage every time.
+
+✔ React updates only the parts that have changed.
+
+---
+
+❌ Virtual DOM replaces the Real DOM.
+
+✔ The Virtual DOM is only a copy used for comparison.
+
+---
+
+❌ Fiber and Virtual DOM are the same thing.
+
+✔ Virtual DOM is React's copy of the UI.
+
+✔ Fiber is React's rendering engine that efficiently processes updates.
+
+---
+
+## Key Takeaways
+
+- DOM is the browser's tree representation of an HTML document.
+- Virtual DOM is a lightweight JavaScript copy of the Real DOM.
+- React first updates the Virtual DOM before touching the Real DOM.
+- Reconciliation compares the old and new Virtual DOMs.
+- Only the changed elements are updated in the Real DOM.
+- Fiber is React's rendering engine that schedules and prioritizes updates.
+- This process makes React applications fast and efficient.
+
+</details>
