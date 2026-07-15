@@ -381,7 +381,81 @@ Browser displays the UI
 ```
 
 ---
+## Hooks
 
+Hooks are special React functions that allow functional components to use React features such as state.
+
+The first Hook is:
+
+```jsx
+useState()
+```
+
+---
+
+## State
+
+State is React's memory.
+
+Unlike normal variables, state values are remembered between re-renders.
+
+---
+
+## useState()
+
+Syntax:
+
+```jsx
+const [count, setCount] = useState(0);
+```
+
+Where:
+
+- `count` → Current state value.
+- `setCount` → Function used to update the state.
+- `0` → Initial state value.
+
+---
+
+## Why useState?
+
+Normal variables reset every time a component re-renders.
+
+State values persist between renders.
+
+---
+
+## Updating State
+
+Correct:
+
+```jsx
+setCount(count + 1);
+```
+
+Incorrect:
+
+```jsx
+count++;
+```
+
+React only updates the UI when the state updater function is called.
+
+---
+
+## Flow
+
+Button Click
+↓
+setCount()
+↓
+React updates state
+↓
+Component re-renders
+↓
+Browser updates
+
+---
 ## Key Takeaways
 
 - React is a JavaScript library.
