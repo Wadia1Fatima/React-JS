@@ -668,6 +668,333 @@ Simply remember:
 </details>
 
 <details>
+<summary>📚 Lecture 7: Props (Click to Expand)</summary>
+
+# Props
+
+- Props (Properties) are used to pass data from a **Parent Component** to a **Child Component**.
+- Props are **read-only** (cannot be modified by the child).
+
+---
+
+## Syntax
+
+Parent:
+
+```jsx
+<Card
+  username="Wadia"
+  age={20}
+/>
+```
+
+Child:
+
+```jsx
+function Card(props) {
+  return <h1>{props.username}</h1>;
+}
+```
+
+or
+
+```jsx
+function Card({ username, age }) {
+  return <h1>{username}</h1>;
+}
+```
+
+---
+
+## Passing Different Types
+
+```jsx
+name="Wadia"
+age={20}
+isLoggedIn={true}
+marks={[90, 85]}
+user={{ city: "Lahore" }}
+```
+
+---
+
+## Why use Props?
+
+- Reuse components.
+- Pass dynamic data.
+- Make components flexible.
+
+---
+
+## Common Mistakes
+
+- Trying to modify props.
+- Forgetting `{}` for JavaScript values.
+- Misspelling prop names.
+
+---
+
+## Interview Corner
+
+**Q. What are Props?**
+
+Props are read-only values passed from a parent component to a child component.
+
+---
+
+## Key Takeaways
+
+- Props = Parent ➜ Child communication.
+- Props are read-only.
+- Components become reusable using props.
+
+</details>
+
+<details>
+<summary>📚 Lecture 8: Tailwind CSS (Click to Expand)</summary>
+
+# Tailwind CSS
+
+- Tailwind is a **utility-first CSS framework**.
+- Styling is done using predefined utility classes.
+
+---
+
+## Example
+
+```jsx
+<h1 className="text-4xl font-bold text-blue-500">
+  Hello
+</h1>
+```
+
+---
+
+## Common Utilities
+
+### Text
+
+```text
+text-white
+text-black
+text-red-500
+text-2xl
+font-bold
+```
+
+---
+
+### Background
+
+```text
+bg-red-500
+bg-blue-600
+bg-black
+```
+
+---
+
+### Spacing
+
+```text
+p-4
+px-4
+py-2
+m-4
+mt-5
+```
+
+---
+
+### Flexbox
+
+```text
+flex
+justify-center
+items-center
+gap-4
+```
+
+---
+
+### Border & Radius
+
+```text
+rounded
+rounded-lg
+border
+shadow-lg
+```
+
+---
+
+### Width & Height
+
+```text
+w-full
+max-w-md
+h-screen
+```
+
+---
+
+## Responsive Design
+
+```jsx
+className="text-sm md:text-lg lg:text-2xl"
+```
+
+- `md:` → Medium screens
+- `lg:` → Large screens
+
+---
+
+## Why Tailwind?
+
+- Faster development.
+- No separate CSS files.
+- Easy responsive design.
+- Highly customizable.
+
+---
+
+## Common Mistakes
+
+- Using `class` instead of `className`.
+- Forgetting responsive prefixes.
+- Writing very long class lists.
+
+---
+
+## Interview Corner
+
+**Q. What is Tailwind CSS?**
+
+A utility-first CSS framework used for rapidly building custom user interfaces.
+
+---
+
+## Key Takeaways
+
+- Uses utility classes.
+- No need to write custom CSS for most styling.
+- Responsive classes use prefixes like `sm:`, `md:`, `lg:`.
+
+</details>
+
+<details>
+<summary>📚 Lecture 9: Background Changer Project (Click to Expand)</summary>
+
+# Background Changer Project
+
+A simple React project to practice **useState**.
+
+---
+
+## Goal
+
+Change the background color when a button is clicked.
+
+---
+
+## State
+
+```jsx
+const [color, setColor] = useState("olive");
+```
+
+---
+
+## Updating State
+
+```jsx
+setColor("red");
+```
+
+React updates:
+
+- State
+- Component
+- UI
+
+---
+
+## Dynamic Styling
+
+```jsx
+style={{ backgroundColor: color }}
+```
+
+The value of `color` controls the background.
+
+---
+
+## Button Example
+
+```jsx
+<button onClick={() => setColor("blue")}>
+  Blue
+</button>
+```
+
+---
+
+## Flow
+
+```
+Button Click
+      ↓
+setColor()
+      ↓
+State Changes
+      ↓
+Component Re-renders
+      ↓
+Background Updates
+```
+
+---
+
+## Common Mistakes
+
+- Writing `onClick={setColor("red")}`
+
+✔ Correct
+
+```jsx
+onClick={() => setColor("red")}
+```
+
+---
+
+- Forgetting to use `{}` inside `style`.
+
+✔ Correct
+
+```jsx
+style={{ backgroundColor: color }}
+```
+
+---
+
+## Interview Corner
+
+**Q. Why does the background change automatically?**
+
+Because changing state causes React to re-render the component.
+
+---
+
+## Key Takeaways
+
+- `useState()` stores the selected color.
+- `setColor()` updates the state.
+- State changes trigger re-rendering.
+- Inline styles can use JavaScript expressions.
+
+</details>
+
+<details>
 <summary>📚 Lecture 10: useCallback, useEffect & useRef (Click to Expand)</summary>
 
 # useCallback()
