@@ -751,7 +751,7 @@ Props are read-only values passed from a parent component to a child component.
 </details>
 
 <details>
-<summary>📚 Lecture 8: Tailwind CSS (Click to Expand)</summary>
+<summary>📚 Lecture 7: Tailwind CSS (Click to Expand)</summary>
 
 # Tailwind CSS
 
