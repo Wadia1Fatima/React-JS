@@ -666,3 +666,185 @@ Simply remember:
 - This process makes React applications fast and efficient.
 
 </details>
+
+<details>
+<summary>📚 Lecture 10: useCallback, useEffect & useRef (Click to Expand)</summary>
+
+# useCallback()
+
+- Memoizes (remembers) a function.
+- Prevents unnecessary recreation on every render.
+- Function is recreated **only when dependencies change**.
+
+### Syntax
+
+```jsx
+const func = useCallback(() => {
+  // logic
+}, [dependencies]);
+```
+
+Example:
+
+```jsx
+const passwordGenerator = useCallback(() => {
+  ...
+}, [length, numAllow, charAllow]);
+```
+
+---
+
+# useEffect()
+
+- Used for **side effects**.
+- Runs after the component renders.
+
+Examples:
+- API calls
+- Timers
+- DOM updates
+- Password generation
+
+### Syntax
+
+```jsx
+useEffect(() => {
+  // code
+}, [dependencies]);
+```
+
+### Dependency Array
+
+```jsx
+useEffect(() => {})          // Every render
+useEffect(() => {}, [])      // Only once
+useEffect(() => {}, [count]) // When count changes
+```
+
+Example:
+
+```jsx
+useEffect(() => {
+  passwordGenerator();
+}, [passwordGenerator]);
+```
+
+---
+
+# useRef()
+
+- Creates a persistent reference.
+- Does **not** cause re-renders.
+- Mostly used to access DOM elements.
+
+### Syntax
+
+```jsx
+const inputRef = useRef(null);
+```
+
+Attach to an element:
+
+```jsx
+<input ref={inputRef} />
+```
+
+Access it:
+
+```jsx
+inputRef.current.focus();
+```
+
+---
+
+# Password Generator Flow
+
+```
+State Changes
+      ↓
+useCallback() recreates passwordGenerator()
+      ↓
+useEffect() runs
+      ↓
+Password updates
+
+Copy Button
+      ↓
+useRef
+      ↓
+Select Input
+      ↓
+Copy to Clipboard
+```
+
+---
+
+# Clipboard
+
+Select text:
+
+```jsx
+passwordRef.current.select();
+```
+
+Select specific range:
+
+```jsx
+passwordRef.current.setSelectionRange(0, 999);
+```
+
+Copy:
+
+```jsx
+navigator.clipboard.writeText(password);
+```
+
+---
+
+# Common Mistakes
+
+- Forgetting dependencies.
+- Using `useState` instead of `useRef`.
+- Confusing `useCallback()` with `useEffect()`.
+- Using unnecessary dependencies in `useEffect`.
+
+---
+
+# useState vs useRef
+
+| useState | useRef |
+|----------|---------|
+| Stores state | Stores reference |
+| Re-renders component | No re-render |
+| Used for UI updates | Used for DOM access |
+
+---
+
+# Interview Corner
+
+**Q. Why use `useCallback()`?**
+
+To avoid recreating functions on every render.
+
+---
+
+**Q. Why use `useEffect()`?**
+
+To perform side effects after rendering.
+
+---
+
+**Q. Why use `useRef()`?**
+
+To access DOM elements or store mutable values without re-rendering.
+
+---
+
+# Key Takeaways
+
+- `useCallback()` → Remembers functions.
+- `useEffect()` → Runs side effects.
+- `useRef()` → Accesses DOM without re-rendering.
+- `navigator.clipboard.writeText()` copies text to the clipboard.
+
+</details>
