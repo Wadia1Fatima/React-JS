@@ -1,19 +1,20 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-
 import {
   createBrowserRouter,
   Route,
   RouterProvider,
+  createRoutesFromElements,
 } from "react-router-dom";
-
 import Layout from "./Layout";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Home from "./components/Home/Home";
 import About from "./components/About/About";
 import Contact from "./components/Contact/Contact"
+import User from "./components/User/User"
+import GitHub, {githubInfoLoader} from "./components/GitHub/GitHub"
 
 // const router = createBrowserRouter([
 //   {
@@ -37,13 +38,17 @@ import Contact from "./components/Contact/Contact"
 // ]);
 
 const router = createBrowserRouter(
-  createRouterFromElements(
+  createRoutesFromElements(
     <Route path = '/' element = {<Layout/>}>
         <Route path = '' element = {<Home />} />
         <Route path = 'about' element = {<About />} />
         <Route path = 'contact' element = {<Contact />} />
-        <Route path = 'user/:userid' element = {<HUser />} />
-        <Route path = 'github' element = {<GitHub />} />
+        <Route path = 'user/:userid' element = {<User />} />
+        <Route 
+          loader={githubInfoLoader}
+          path = 'github' 
+          element = {<GitHub />} 
+        />
     </Route>
   )
 )
