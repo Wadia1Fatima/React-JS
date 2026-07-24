@@ -1386,3 +1386,379 @@ Because fetching data is a side effect that should happen after the component re
 - `useEffect()` fetches new data whenever dependencies change.
 
 </details>
+
+<details>
+<summary>🛣️ Lecture 12: React Router (Click to Expand)</summary>
+
+# React Router
+
+## What is React Router?
+
+React Router is a **third-party library** used for **client-side routing** in React.
+
+It allows users to navigate between pages **without refreshing the browser**.
+
+---
+
+## Installation
+
+```bash
+npm install react-router-dom
+```
+
+React Router is **not included** with React or Vite, so it must be installed separately.
+
+---
+
+## Why do we need React Router?
+
+Without React Router:
+
+- Every page request reloads the entire website.
+- Navigation is slower.
+
+With React Router:
+
+- Only the required component changes.
+- The page doesn't reload.
+- Navigation is faster and smoother.
+
+---
+
+## BrowserRouter
+
+Provides routing functionality to the entire application.
+
+With the latest React Router, we commonly use:
+
+```jsx
+createBrowserRouter()
+```
+
+and
+
+```jsx
+<RouterProvider router={router} />
+```
+
+instead of wrapping the app with `<BrowserRouter>`.
+
+---
+
+## createBrowserRouter()
+
+Creates all the routes of the application.
+
+Example:
+
+```jsx
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+  },
+]);
+```
+
+---
+
+## RouterProvider
+
+Makes the router available to the whole application.
+
+```jsx
+<RouterProvider router={router} />
+```
+
+---
+
+## Route Structure
+
+```text
+"/"
+ │
+ ├── Home
+ ├── About
+ ├── Contact
+ └── Github
+```
+
+Each route maps a URL to a React component.
+
+---
+
+## Layout Component
+
+The Layout component contains the UI shared by all pages.
+
+Example:
+
+```jsx
+<>
+  <Header />
+  <Outlet />
+  <Footer />
+</>
+```
+
+The Header and Footer remain the same while the page content changes.
+
+---
+
+## Outlet
+
+`<Outlet />` is a placeholder where child routes are rendered.
+
+Example:
+
+```jsx
+<Header />
+<Outlet />
+<Footer />
+```
+
+If the current route is `/about`, React renders:
+
+```jsx
+<Header />
+<About />
+<Footer />
+```
+
+---
+
+## Nested Routes
+
+Child routes are defined inside the parent route.
+
+Example:
+
+```jsx
+{
+  path: "/",
+  element: <Layout />,
+  children: [
+    {
+      path: "",
+      element: <Home />
+    },
+    {
+      path: "about",
+      element: <About />
+    }
+  ]
+}
+```
+
+---
+
+## Link
+
+`<Link>` is used for navigation **without reloading the page**.
+
+```jsx
+<Link to="/about">
+  About
+</Link>
+```
+
+Avoid using:
+
+```html
+<a href="/about">
+```
+
+because it refreshes the page.
+
+---
+
+## NavLink
+
+`NavLink` works like `Link` but can identify the active route.
+
+Example:
+
+```jsx
+<NavLink
+  to="/about"
+  className={({ isActive }) =>
+    isActive ? "text-orange-700" : "text-gray-700"
+  }
+>
+  About
+</NavLink>
+```
+
+`isActive` is `true` when the current page matches the route.
+
+---
+
+## Router Flow
+
+```text
+User clicks Link
+        ↓
+URL changes
+        ↓
+React Router matches the route
+        ↓
+Outlet renders the correct component
+        ↓
+Header & Footer remain unchanged
+```
+
+---
+
+## Folder Structure
+
+```text
+src
+│
+├── components
+│   ├── Header
+│   ├── Footer
+│   ├── Home
+│   └── About
+│
+├── Layout.jsx
+├── main.jsx
+└── index.css
+```
+
+---
+
+## Common Beginner Mistakes
+
+### 1. Forgetting to install React Router
+
+```bash
+npm install react-router-dom
+```
+
+---
+
+### 2. Forgetting to import components
+
+```jsx
+import Home from "./components/Home/Home";
+```
+
+---
+
+### 3. Wrong import path
+
+❌
+
+```jsx
+import Header from "./Header/Header";
+```
+
+✔
+
+```jsx
+import Header from "./components/Header/Header";
+```
+
+---
+
+### 4. Typo in Outlet
+
+❌
+
+```jsx
+<Outet />
+```
+
+✔
+
+```jsx
+<Outlet />
+```
+
+---
+
+### 5. Forgetting to import Outlet
+
+```jsx
+import { Outlet } from "react-router-dom";
+```
+
+---
+
+### 6. Forgetting `to` in Link/NavLink
+
+```jsx
+<Link to="/about">
+```
+
+Without `to`, navigation won't work.
+
+---
+
+### 7. Wrong NavLink syntax
+
+✔
+
+```jsx
+className={({ isActive }) =>
+  isActive ? "text-orange-700" : "text-gray-700"
+}
+```
+
+---
+
+## Link vs NavLink
+
+| Link | NavLink |
+|------|---------|
+| Used for navigation | Used for navigation |
+| Doesn't know active page | Knows active page |
+| No active styling | Supports active styling |
+
+---
+
+## Key Takeaways
+
+- React Router enables client-side routing.
+- Install it using `npm install react-router-dom`.
+- `createBrowserRouter()` defines routes.
+- `RouterProvider` provides routing to the app.
+- `Layout` contains shared UI.
+- `Outlet` renders child routes.
+- `Link` navigates without page reload.
+- `NavLink` also detects the active route.
+- Nested routes help organize multi-page applications.
+
+---
+
+## Interview Corner
+
+**Q1. What is React Router?**
+
+A third-party library used for client-side routing in React applications.
+
+---
+
+**Q2. Why do we use Link instead of `<a>`?**
+
+`Link` changes pages without refreshing the browser, while `<a>` reloads the entire page.
+
+---
+
+**Q3. What is Outlet?**
+
+A placeholder that renders the currently matched child route inside the parent layout.
+
+---
+
+**Q4. What is the difference between Link and NavLink?**
+
+`NavLink` can detect the active route and apply different styling, while `Link` cannot.
+
+---
+
+**Q5. Why isn't `react-router-dom` installed automatically?**
+
+Because it is a third-party library, not part of React's core packages. It is installed only when routing is needed.
+
+</details>
