@@ -1762,3 +1762,362 @@ A placeholder that renders the currently matched child route inside the parent l
 Because it is a third-party library, not part of React's core packages. It is installed only when routing is needed.
 
 </details>
+
+<details>
+<summary>🌙 Lecture 13: Context API (Click to Expand)</summary>
+
+# Context API
+
+## What is Context API?
+
+Context API is a React feature used to **share data between components** without passing props manually through every intermediate component.
+
+This solves the problem of **Prop Drilling**.
+
+---
+
+## What is Prop Drilling?
+
+Prop Drilling is the process of passing props through multiple components, even when some components don't need them.
+
+Example:
+
+```
+App
+ ↓
+Header
+ ↓
+Navbar
+ ↓
+Profile
+```
+
+If only `Profile` needs the data, `Header` and `Navbar` still have to receive and pass it.
+
+---
+
+## Why Context API?
+
+Instead of passing props through every component:
+
+```
+App
+ ↓
+Header
+ ↓
+Navbar
+ ↓
+Profile
+```
+
+Context allows any component to access shared data directly.
+
+```
+        Context
+       /   |   \
+Header  Navbar  Profile
+```
+
+---
+
+## React.createContext()
+
+Creates a Context object.
+
+```jsx
+import { createContext } from "react";
+
+const ThemeContext = createContext();
+```
+
+---
+
+## Context Provider
+
+The **Provider** makes data available to all child components.
+
+```jsx
+<ThemeContext.Provider value={value}>
+    <App />
+</ThemeContext.Provider>
+```
+
+Everything inside the Provider can access the shared data.
+
+---
+
+## value Prop
+
+The `value` prop contains the data shared through the Context.
+
+Example:
+
+```jsx
+<ThemeContext.Provider value={{ theme, setTheme }}>
+```
+
+You can share:
+
+- Variables
+- Functions
+- Objects
+- Arrays
+
+---
+
+## useContext()
+
+`useContext()` is used to access data from a Context.
+
+```jsx
+const value = useContext(ThemeContext);
+```
+
+Instead of receiving props, the component directly reads the shared data.
+
+---
+
+## Theme Example
+
+Create Context:
+
+```jsx
+const ThemeContext = createContext();
+```
+
+Provide the theme:
+
+```jsx
+<ThemeContext.Provider value={{ theme, setTheme }}>
+    <App />
+</ThemeContext.Provider>
+```
+
+Use the theme:
+
+```jsx
+const { theme } = useContext(ThemeContext);
+```
+
+---
+
+## Custom Provider
+
+Instead of writing the Provider in `main.jsx`, we usually create a separate Provider component.
+
+Example:
+
+```jsx
+function ThemeProvider({ children }) {
+    const [theme, setTheme] = useState("light");
+
+    return (
+        <ThemeContext.Provider value={{ theme, setTheme }}>
+            {children}
+        </ThemeContext.Provider>
+    );
+}
+```
+
+---
+
+## children Prop
+
+`children` represents whatever is placed between a component's opening and closing tags.
+
+Example:
+
+```jsx
+<ThemeProvider>
+    <App />
+</ThemeProvider>
+```
+
+Inside `ThemeProvider`:
+
+```jsx
+{children}
+```
+
+renders:
+
+```jsx
+<App />
+```
+
+---
+
+## Folder Structure
+
+```
+src
+│
+├── context
+│     ├── ThemeContext.js
+│     └── ThemeProvider.jsx
+│
+├── components
+│
+├── App.jsx
+└── main.jsx
+```
+
+---
+
+## Context Flow
+
+```
+createContext()
+        ↓
+Create Provider
+        ↓
+Wrap App with Provider
+        ↓
+Pass data using value
+        ↓
+Child components use useContext()
+```
+
+---
+
+## Context vs Props
+
+| Props | Context |
+|-------|---------|
+| Passed manually | Shared globally |
+| Good for parent → child | Good for many components |
+| Can cause Prop Drilling | Eliminates Prop Drilling |
+
+---
+
+## Common Beginner Mistakes
+
+### 1. Forgetting Provider
+
+```jsx
+useContext(ThemeContext)
+```
+
+won't work unless the component is wrapped inside:
+
+```jsx
+<ThemeContext.Provider>
+```
+
+---
+
+### 2. Forgetting value
+
+```jsx
+<ThemeContext.Provider>
+```
+
+Always provide:
+
+```jsx
+value={...}
+```
+
+---
+
+### 3. Importing the wrong Context
+
+```jsx
+useContext(UserContext)
+```
+
+instead of
+
+```jsx
+useContext(ThemeContext)
+```
+
+---
+
+### 4. Forgetting to export Context
+
+```jsx
+export default ThemeContext;
+```
+
+---
+
+### 5. Using useContext outside the Provider
+
+Components outside the Provider cannot access Context values.
+
+---
+
+## Advantages
+
+- Eliminates Prop Drilling.
+- Makes state sharing easier.
+- Cleaner component structure.
+- Easy to manage themes, authentication, language, and user data.
+
+---
+
+## Limitations
+
+- Best for global/shared state.
+- Avoid storing every piece of state in Context.
+- Frequent updates may cause unnecessary re-renders.
+
+---
+
+## Key Takeaways
+
+- Context API shares data across components.
+- Solves the Prop Drilling problem.
+- `createContext()` creates a Context.
+- `Provider` shares data.
+- `value` contains the shared data.
+- `useContext()` reads the shared data.
+- `children` represents nested components.
+- Common use cases include themes, authentication, language, and user settings.
+
+---
+
+## Interview Corner
+
+**Q1. What is Context API?**
+
+A React feature that allows data to be shared between components without passing props manually.
+
+---
+
+**Q2. What problem does Context API solve?**
+
+It eliminates **Prop Drilling**.
+
+---
+
+**Q3. What is Prop Drilling?**
+
+Passing props through multiple intermediate components that don't actually use them.
+
+---
+
+**Q4. What does `createContext()` do?**
+
+It creates a Context object.
+
+---
+
+**Q5. What is a Provider?**
+
+A component that supplies Context data to all of its child components.
+
+---
+
+**Q6. What does `useContext()` do?**
+
+It reads the value from the nearest matching Context Provider.
+
+---
+
+**Q7. What is the purpose of the `children` prop?**
+
+It represents the components nested inside another component and allows the Provider to wrap them.
+
+</details>
