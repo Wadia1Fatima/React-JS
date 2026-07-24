@@ -1175,3 +1175,214 @@ To access DOM elements or store mutable values without re-rendering.
 - `navigator.clipboard.writeText()` copies text to the clipboard.
 
 </details>
+
+<details>
+<summary>📚 Lecture 11: Custom Hooks (Click to Expand)</summary>
+
+# Custom Hooks
+
+- A Custom Hook is a JavaScript function that uses one or more React Hooks.
+- It helps reuse logic across multiple components.
+- Custom Hook names **must start with `use`**.
+
+---
+
+## Why use Custom Hooks?
+
+- Reuse logic.
+- Keep components clean.
+- Avoid duplicate code.
+
+---
+
+## Syntax
+
+```jsx
+function useCustomHook() {
+    // Hook logic
+    return value;
+}
+```
+
+Example:
+
+```jsx
+function useCurrencyInfo(currency) {
+    ...
+    return data;
+}
+```
+
+---
+
+# Using a Custom Hook
+
+```jsx
+const currencyInfo = useCurrencyInfo(from);
+```
+
+React executes the hook and returns the required data.
+
+---
+
+# Fetch API
+
+Used to request data from an API.
+
+```jsx
+fetch(url)
+    .then((res) => res.json())
+    .then((res) => {
+        ...
+    });
+```
+
+---
+
+# useEffect + Fetch
+
+```jsx
+useEffect(() => {
+    fetch(...)
+        .then(...)
+}, [currency]);
+```
+
+Whenever `currency` changes:
+
+- API is called.
+- New data is fetched.
+- State updates.
+- Component re-renders.
+
+---
+
+# Object.keys()
+
+Returns an array of an object's keys.
+
+Example:
+
+```jsx
+const options = Object.keys(currencyInfo);
+```
+
+Output:
+
+```jsx
+["usd", "eur", "pkr", "inr", ...]
+```
+
+Useful for rendering dropdown options.
+
+---
+
+# Props Used in InputBox
+
+```jsx
+label
+amount
+currencyOptions
+selectCurrency
+onAmountChange
+onCurrencyChange
+amountDisable
+currencyDisable
+```
+
+These make the component reusable.
+
+---
+
+# Swap Function
+
+```jsx
+setFrom(to);
+setTo(from);
+```
+
+Swaps the selected currencies.
+
+---
+
+# Convert Function
+
+```jsx
+setConvertedAmount(
+    amount * currencyInfo[to]
+);
+```
+
+Calculates the converted amount.
+
+---
+
+# Component Flow
+
+```
+User selects currency
+        ↓
+useCurrencyInfo()
+        ↓
+API Fetch
+        ↓
+Data stored in state
+        ↓
+Dropdown updates
+
+User clicks Convert
+        ↓
+convert()
+        ↓
+Converted amount displayed
+```
+
+---
+
+# Common Mistakes
+
+- Forgetting `return` inside `map()`.
+- Writing `fetch = (...)` instead of `fetch(...)`.
+- Using `useState` incorrectly (`useSatate` typo).
+- Forgetting dependency array in `useEffect`.
+- Prop name mismatches (`CurrencyOptions` vs `currencyOptions`).
+- Case-sensitive folder names (`components` vs `Components`).
+
+---
+
+# Interview Corner
+
+**Q. What is a Custom Hook?**
+
+A reusable JavaScript function that starts with `use` and contains React Hooks.
+
+---
+
+**Q. Why do Custom Hooks start with `use`?**
+
+React uses the `use` prefix to identify Hook functions and enforce the Rules of Hooks.
+
+---
+
+**Q. Why use `Object.keys()`?**
+
+To get an array of an object's keys, often for rendering lists or dropdowns.
+
+---
+
+**Q. Why is `useEffect()` used for fetching data?**
+
+Because fetching data is a side effect that should happen after the component renders.
+
+---
+
+# Key Takeaways
+
+- Custom Hooks reuse logic across components.
+- Hook names must start with `use`.
+- `fetch()` retrieves data from APIs.
+- `Object.keys()` converts object keys into an array.
+- Components become more reusable by passing props.
+- `useEffect()` fetches new data whenever dependencies change.
+
+</details>
