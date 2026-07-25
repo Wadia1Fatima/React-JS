@@ -2121,3 +2121,370 @@ It reads the value from the nearest matching Context Provider.
 It represents the components nested inside another component and allows the Provider to wrap them.
 
 </details>
+
+<details>
+<summary>📚 Lecture 14: Context API & Todo App (Click to Expand)</summary>
+
+# Context API & Todo App
+
+## Why Context API?
+
+Normally, data is passed from parent to child using **props**.
+
+```
+App
+ ↓
+Parent
+ ↓
+Child
+ ↓
+GrandChild
+```
+
+This is called **Prop Drilling**.
+
+Context API lets multiple components share data **without passing props manually**.
+
+---
+
+## createContext()
+
+Creates a Context object.
+
+```jsx
+const TodoContext = createContext()
+```
+
+---
+
+## Provider
+
+The **Provider** makes data available to all child components.
+
+```jsx
+<TodoProvider value={{todos, addTodo}}>
+    <App />
+</TodoProvider>
+```
+
+---
+
+## useContext()
+
+Reads data from a Context.
+
+```jsx
+const { todos, addTodo } = useTodo()
+```
+
+---
+
+## Custom Hook
+
+Instead of writing
+
+```jsx
+useContext(TodoContext)
+```
+
+everywhere, create a custom hook.
+
+```jsx
+export const useTodo = () => {
+    return useContext(TodoContext)
+}
+```
+
+Now simply use
+
+```jsx
+const { addTodo } = useTodo()
+```
+
+---
+
+# Todo State
+
+Store all todos in state.
+
+```jsx
+const [todos, setTodos] = useState([])
+```
+
+---
+
+# Adding a Todo
+
+```jsx
+setTodos((prev) => [
+    { id: Date.now(), ...todo },
+    ...prev
+])
+```
+
+- `Date.now()` creates a unique ID.
+- `...todo` copies the todo object.
+
+---
+
+# Updating a Todo
+
+```jsx
+setTodos((prev) =>
+    prev.map((item) =>
+        item.id === id ? todo : item
+    )
+)
+```
+
+Use **map()** to update one item.
+
+---
+
+# Deleting a Todo
+
+```jsx
+setTodos((prev) =>
+    prev.filter((todo) => todo.id !== id)
+)
+```
+
+Use **filter()** to remove an item.
+
+---
+
+# Toggle Complete
+
+```jsx
+setTodos((prev) =>
+    prev.map((todo) =>
+        todo.id === id
+            ? {
+                ...todo,
+                completed: !todo.completed
+              }
+            : todo
+    )
+)
+```
+
+`!` flips the boolean value.
+
+---
+
+# Local Storage
+
+Local Storage keeps data even after refreshing the page.
+
+---
+
+## Save Data
+
+```jsx
+localStorage.setItem(
+    "todos",
+    JSON.stringify(todos)
+)
+```
+
+Objects must be converted into strings using `JSON.stringify()`.
+
+---
+
+## Load Data
+
+```jsx
+const todos =
+JSON.parse(localStorage.getItem("todos"))
+```
+
+Convert the stored string back into an object using `JSON.parse()`.
+
+---
+
+# useEffect()
+
+### Load todos only once
+
+```jsx
+useEffect(() => {
+    const todos = JSON.parse(localStorage.getItem("todos"))
+
+    if (todos && todos.length > 0) {
+        setTodos(todos)
+    }
+}, [])
+```
+
+---
+
+### Save whenever todos change
+
+```jsx
+useEffect(() => {
+    localStorage.setItem(
+        "todos",
+        JSON.stringify(todos)
+    )
+}, [todos])
+```
+
+---
+
+# Folder Structure
+
+```
+src
+│
+├── components
+│   ├── TodoForm.jsx
+│   ├── TodoItem.jsx
+│   └── index.js
+│
+├── context
+│   ├── TodoContext.js
+│   └── index.js
+│
+└── App.jsx
+```
+
+---
+
+# React Flow
+
+```
+User types Todo
+        ↓
+TodoForm
+        ↓
+addTodo()
+        ↓
+Context
+        ↓
+setTodos()
+        ↓
+TodoItem updates
+        ↓
+useEffect()
+        ↓
+Local Storage updates
+```
+
+---
+
+# Common Methods
+
+| Method | Purpose |
+|---------|----------|
+| `map()` | Update an item |
+| `filter()` | Delete an item |
+| `Date.now()` | Generate unique ID |
+| `JSON.stringify()` | Object → String |
+| `JSON.parse()` | String → Object |
+| `localStorage.setItem()` | Save data |
+| `localStorage.getItem()` | Load data |
+
+---
+
+# Common Mistakes
+
+### Forgetting Provider
+
+```jsx
+<TodoProvider value={...}>
+```
+
+Without the Provider, `useContext()` won't work.
+
+---
+
+### Forgetting `onSubmit`
+
+```jsx
+<form onSubmit={add}>
+```
+
+Without `onSubmit`, clicking **Add** won't call the function.
+
+---
+
+### Forgetting `JSON.stringify()`
+
+```jsx
+localStorage.setItem("todos", JSON.stringify(todos))
+```
+
+---
+
+### Forgetting `JSON.parse()`
+
+```jsx
+JSON.parse(localStorage.getItem("todos"))
+```
+
+---
+
+### Updating State Directly
+
+❌
+
+```jsx
+todos.push(newTodo)
+```
+
+✔
+
+```jsx
+setTodos([...todos, newTodo])
+```
+
+---
+
+# Key Takeaways
+
+- Context API prevents prop drilling.
+- `createContext()` creates shared state.
+- `Provider` shares data with child components.
+- `useContext()` reads shared data.
+- Custom Hooks make Context easier to use.
+- `map()` updates items.
+- `filter()` deletes items.
+- `localStorage` stores data permanently in the browser.
+- `JSON.stringify()` converts objects to strings.
+- `JSON.parse()` converts strings back to objects.
+- `useEffect()` loads and saves todos automatically.
+
+---
+
+## Interview Corner
+
+**Q1. What problem does Context API solve?**
+
+It avoids prop drilling by allowing components to share data directly.
+
+---
+
+**Q2. What is Prop Drilling?**
+
+Passing props through multiple intermediate components just to reach a deeply nested component.
+
+---
+
+**Q3. Why do we use `JSON.stringify()`?**
+
+Because Local Storage only stores strings.
+
+---
+
+**Q4. Why do we use `JSON.parse()`?**
+
+To convert the stored JSON string back into a JavaScript object.
+
+---
+
+**Q5. Why do we use `map()` and `filter()` in the Todo app?**
+
+- `map()` updates an existing todo.
+- `filter()` removes a todo.
+
+</details>
