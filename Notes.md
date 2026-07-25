@@ -2488,3 +2488,416 @@ To convert the stored JSON string back into a JavaScript object.
 - `filter()` removes a todo.
 
 </details>
+
+<details>
+<summary>📚 Lecture 15: Redux Toolkit (Click to Expand)</summary>
+
+# Redux Toolkit
+
+## What is Redux?
+
+Redux is a **state management library** used to store and manage global state in a React application.
+
+It allows multiple components to access and update the same data without prop drilling.
+
+---
+
+## Why Redux?
+
+Without Redux:
+
+```
+App
+│
+├── Parent
+│    └── Child
+│         └── GrandChild
+```
+
+Data is passed through multiple components using **props** (Prop Drilling).
+
+With Redux:
+
+```
+        Redux Store
+           │
+ ┌─────────┼─────────┐
+ │         │         │
+Component A Component B Component C
+```
+
+Any component can directly access the global state.
+
+---
+
+## Redux Toolkit
+
+Redux Toolkit (RTK) is the official and recommended way to use Redux.
+
+It reduces boilerplate code and makes Redux easier to write.
+
+Install it using:
+
+```bash
+npm install @reduxjs/toolkit react-redux
+```
+
+---
+
+## Store
+
+The **Store** is the central place where all global state is stored.
+
+Example:
+
+```jsx
+import { configureStore } from "@reduxjs/toolkit";
+import todoReducer from "../features/todo/todoSlice";
+
+export const store = configureStore({
+    reducer: {
+        todos: todoReducer
+    }
+});
+```
+
+---
+
+## Provider
+
+`Provider` makes the Redux Store available to the entire application.
+
+Wrap the root component inside it.
+
+```jsx
+<Provider store={store}>
+    <App />
+</Provider>
+```
+
+---
+
+## Slice
+
+A **Slice** contains:
+
+- Initial State
+- Reducers
+- Actions
+
+Example:
+
+```jsx
+const initialState = {
+    todos: []
+}
+```
+
+Create a slice:
+
+```jsx
+const todoSlice = createSlice({
+    name: "todo",
+    initialState,
+    reducers: {
+        addTodo(){},
+        removeTodo(){}
+    }
+})
+```
+
+---
+
+## Reducers
+
+Reducers define **how the state changes**.
+
+Example:
+
+```jsx
+addTodo: (state, action) => {
+    state.todos.push({
+        id: nanoid(),
+        text: action.payload
+    })
+}
+```
+
+---
+
+## Actions
+
+Actions describe **what should happen**.
+
+Redux Toolkit automatically creates action creators.
+
+```jsx
+export const { addTodo, removeTodo } = todoSlice.actions;
+```
+
+Dispatch them using:
+
+```jsx
+dispatch(addTodo("Learn Redux"))
+```
+
+---
+
+## useDispatch()
+
+`useDispatch()` sends actions to the Redux Store.
+
+```jsx
+const dispatch = useDispatch();
+```
+
+Example:
+
+```jsx
+dispatch(addTodo(input));
+```
+
+---
+
+## useSelector()
+
+`useSelector()` reads data from the Redux Store.
+
+```jsx
+const todos = useSelector((state) => state.todos.todos);
+```
+
+It automatically re-renders the component when the selected state changes.
+
+---
+
+## configureStore()
+
+Creates the Redux Store.
+
+```jsx
+const store = configureStore({
+    reducer: {
+        todos: todoReducer
+    }
+})
+```
+
+---
+
+## createSlice()
+
+Creates:
+
+- Slice
+- Reducers
+- Actions
+
+all in one place.
+
+```jsx
+createSlice({
+    name,
+    initialState,
+    reducers
+})
+```
+
+---
+
+## nanoid()
+
+Generates unique IDs.
+
+```jsx
+id: nanoid()
+```
+
+Useful for creating unique Todo IDs.
+
+---
+
+## Redux Flow
+
+```
+User clicks button
+        ↓
+dispatch(action)
+        ↓
+Reducer executes
+        ↓
+Store updates
+        ↓
+State changes
+        ↓
+useSelector gets new state
+        ↓
+UI re-renders
+```
+
+---
+
+## Folder Structure
+
+```
+src/
+│
+├── app/
+│   └── store.js
+│
+├── features/
+│   └── todo/
+│       └── todoSlice.js
+│
+├── components/
+│   ├── AddTodo.jsx
+│   └── Todo.jsx
+│
+├── App.jsx
+└── main.jsx
+```
+
+---
+
+## Common Mistakes
+
+### 1. Forgetting Provider
+
+```jsx
+<Provider store={store}>
+```
+
+Without it, `useDispatch()` and `useSelector()` won't work.
+
+---
+
+### 2. Incorrect Store Export
+
+❌
+
+```jsx
+export const stroe = ...
+```
+
+✔
+
+```jsx
+export const store = ...
+```
+
+---
+
+### 3. Wrong useSelector()
+
+If the store is:
+
+```jsx
+reducer: {
+    todos: todoReducer
+}
+```
+
+Access state like:
+
+```jsx
+state.todos.todos
+```
+
+---
+
+### 4. Forgetting to Dispatch
+
+❌
+
+```jsx
+addTodo(input)
+```
+
+✔
+
+```jsx
+dispatch(addTodo(input))
+```
+
+---
+
+### 5. Mutating State Manually
+
+Redux Toolkit uses **Immer**, so this is allowed:
+
+```jsx
+state.todos.push(todo)
+```
+
+You don't need to create a new array manually.
+
+---
+
+## React State vs Redux
+
+| useState | Redux |
+|----------|--------|
+| Local state | Global state |
+| Used inside one component | Shared across components |
+| No Provider required | Requires Provider |
+| Simple applications | Medium & large applications |
+
+---
+
+## Key Takeaways
+
+- Redux manages global state.
+- Redux Toolkit simplifies Redux.
+- The Store holds the application's global state.
+- Provider gives all components access to the Store.
+- createSlice() creates reducers and actions together.
+- useDispatch() sends actions.
+- useSelector() reads state.
+- configureStore() creates the Redux Store.
+- Redux Toolkit uses Immer, allowing direct state updates inside reducers.
+
+---
+
+## Interview Corner
+
+**Q1. What is Redux?**
+
+A library for managing global state in React applications.
+
+---
+
+**Q2. What is Redux Toolkit?**
+
+The official and recommended way to write Redux code with less boilerplate.
+
+---
+
+**Q3. What is a Store?**
+
+The central place where the application's global state is stored.
+
+---
+
+**Q4. What is useDispatch()?**
+
+A Hook used to dispatch actions to the Redux Store.
+
+---
+
+**Q5. What is useSelector()?**
+
+A Hook used to read data from the Redux Store.
+
+---
+
+**Q6. What is createSlice()?**
+
+A function that creates a slice containing the state, reducers, and actions.
+
+---
+
+**Q7. Why do we wrap App with Provider?**
+
+To make the Redux Store accessible to all components in the application.
+
+</details>
